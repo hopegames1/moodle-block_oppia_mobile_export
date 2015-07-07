@@ -2,7 +2,7 @@
 
 class mobile_activity_quiz extends mobile_activity {
 
-	private $supported_types = array('multichoice', 'match', 'truefalse', 'description', 'shortanswer', 'numerical');
+	private $supported_types = array('multichoice', 'match', 'truefalse', 'description', 'shortanswer', 'numerical','essay');
 	private $courseversion;
 	private $summary;
 	private $shortname;
@@ -40,17 +40,21 @@ class mobile_activity_quiz extends mobile_activity {
 		$qs = $quizobj->get_questions();
 		
 		// check has at least one non-essay and non-random question
-		$count_omitted = 0;
-		foreach($qs as $q){
-			if(in_array($q->qtype,$this->supported_types)){
-				$this->no_questions++;
-			} else {
-				$count_omitted++;
-			}
-		}
-		if($count_omitted == count($qs)){
-			$this->is_valid = false;
-		}
+		// $count_omitted = 0;
+		// foreach($qs as $q){
+		
+			// if(in_array($q->qtype,$this->supported_types)){
+				// $this->no_questions++;
+			// } else {
+				// $count_omitted++;
+			// }
+		// }
+	
+		// if($count_omitted == count($qs)){
+			// $this->is_valid = false;
+		// }else{
+		// $this->is_valid = false;
+		// }
 	}
 	
 	function process(){
@@ -140,8 +144,9 @@ class mobile_activity_quiz extends mobile_activity {
 			foreach($qs as $q){
 				// skip any essay questions
 				if($q->qtype == 'essay'){
-					echo get_string('export_quiz_skip_essay','block_oppia_mobile_export')."<br/>";
-					continue;
+				$q->qtype = 'essay';
+				// echo get_string('export_quiz_skip_essay','block_oppia_mobile_export')."<br/>";
+					// continue;
 				}
 				
 				// skip any random questions
@@ -319,9 +324,9 @@ class mobile_activity_quiz extends mobile_activity {
 			$i = 1;
 			foreach($qs as $q){
 				// skip any essay questions
-				if($q->qtype == 'essay'){
-					continue;
-				}
+				// if($q->qtype == 'essay'){
+					// continue;
+				// }
 			
 				// skip any random questions
 				if($q->qtype == 'random'){
